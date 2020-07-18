@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import ArticulosIndex from "./components/articulos-index";
+import MenuPrincipal from "./components/MenuPrincipalIndex";
+import ArticulosIndex from "./components/ArticulosIndex";
+import ArticulosNew from "./components/ArticulosNew";
 
 class App extends Component {
   render() {
@@ -25,8 +27,9 @@ class App extends Component {
           </nav>
           <br />
         </div>
-        <Route path="/" exact component={ArticulosIndex} />
+        <Route path="/" exact component={MenuPrincipal} />
         <Route path="/articulos" exact component={ArticulosIndex} />
+        <Route path="/articulos/new" exact component={ArticulosNew} />
       </Router>
     );
   }

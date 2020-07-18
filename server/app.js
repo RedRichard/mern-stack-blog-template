@@ -4,6 +4,7 @@ const express = require("express"),
   mongoose = require("mongoose"),
   path = require("path"),
   bodyParser = require("body-parser"),
+  cors = require("cors"),
   seedDB = require("./seeds");
 
 // Import models:
@@ -33,13 +34,14 @@ const indexRoutes = require("./routes/index"),
 // Express config:
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitizer());
 app.use("/", indexRoutes);
 app.use("/articulos", articuloRoutes);
 
-// app.listen(3000, () => {
-//   console.log("El servidor está funcionando.");
-// });
+app.listen(9000, () => {
+  console.log("El servidor está funcionando.");
+});
 
 module.exports = app;

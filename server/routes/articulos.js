@@ -6,7 +6,16 @@ const Articulo = require("../models/articulo");
 
 // INDEX - Página con todos los artículos:
 router.get("/", (req, res) => {
-  res.send("Index de artículos");
+  //res.send("Index de artículos");
+  Articulo.find()
+    .sort({ created: -1 })
+    .exec({}, (err, articulos) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(articulos);
+      }
+    });
 });
 
 // NEW - Forma para crear nuevo artículo:
