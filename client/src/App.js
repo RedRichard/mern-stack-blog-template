@@ -1,41 +1,34 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { apiResponse: "" };
-  }
+import ArticulosIndex from "./components/articulos-index";
 
-  callAPI() {
-    fetch("http://localhost:9000/testAPI")
-      .then((res) => res.text())
-      .then((res) => this.setState({ apiResponse: res }));
-  }
-
-  componentDidMount() {
-    this.callAPI();
-  }
-
+class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p className="App-intro">{this.state.apiResponse}</p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div className="container">
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <Link to="/" className="navbar-brand">
+              Letras Transformadoras
+            </Link>
+            <div className="collpase navbar-collapse">
+              <ul className="navbar-nav mr-auto">
+                <li className="navbar-item">
+                  <Link to="/articulos" className="nav-link">
+                    Artículos
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <br />
+        </div>
+        <Route path="/" exact component={ArticulosIndex} />
+        <Route path="/articulos" exact component={ArticulosIndex} />
+      </Router>
     );
   }
 }
-
 export default App;
