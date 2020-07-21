@@ -36,6 +36,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(expressSanitizer());
 app.use("/", indexRoutes);
 app.use("/articulos", articuloRoutes);

@@ -25,7 +25,15 @@ router.get("/new", (req, res) => {
 
 // POST - Nuevo artículo:
 router.post("/", (req, res) => {
-  res.send("Nuevo articulo ");
+  let articulo = new Articulo(req.body);
+  articulo
+    .save()
+    .then((articulo) => {
+      res.status(200).json({ articulo: "articulo guardado exitosamente" });
+    })
+    .catch((err) => {
+      res.status(400).send("Article save failed.");
+    });
 });
 
 module.exports = router;

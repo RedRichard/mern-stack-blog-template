@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Articulo = (props) => (
   <div>
     <h2>{props.articulo.title}</h2>
     <h4>{props.articulo.subtitle}</h4>
-    <h5>{props.articulo.author.username}</h5>
+    {/*<h5>{props.articulo.author.username}</h5>*/}
     <span>{props.articulo.created}</span>
     <p>{props.articulo.text}</p>
   </div>

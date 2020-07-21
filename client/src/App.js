@@ -22,6 +22,11 @@ class App extends Component {
                     Artículos
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/articulos" className="nav-link">
+                    Usuarios
+                  </Link>
+                </li>
               </ul>
             </div>
           </nav>
