@@ -2,15 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const Articulo = (props) => (
-  <div>
-    <h2>{props.articulo.title}</h2>
-    <h4>{props.articulo.subtitle}</h4>
-    {/*<h5>{props.articulo.author.username}</h5>*/}
-    <span>{props.articulo.created}</span>
-    <p>{props.articulo.text}</p>
-  </div>
-);
+import ArticuloCard from "./ArticuloCard";
 
 export default class ArticulosIndex extends Component {
   constructor(props) {
@@ -22,7 +14,7 @@ export default class ArticulosIndex extends Component {
     axios
       .get("http://localhost:9000/articulos/")
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         this.setState({ articulos: res.data });
       })
       .catch((err) => {
@@ -32,7 +24,7 @@ export default class ArticulosIndex extends Component {
 
   articleList() {
     return this.state.articulos.map((currentArticle, i) => {
-      return <Articulo articulo={currentArticle} key={i} />;
+      return <ArticuloCard articulo={currentArticle} key={i} />;
     });
   }
 
@@ -45,7 +37,7 @@ export default class ArticulosIndex extends Component {
             Crear nuevo artículo
           </button>
         </Link>
-        <div>{this.articleList()}</div>
+        <div className="row">{this.articleList()}</div>
       </div>
     );
   }

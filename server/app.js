@@ -23,6 +23,9 @@ mongoose.connect("mongodb://localhost/letras_transformadoras", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+// Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+mongoose.set("useFindAndModify", false);
 
 // Seed database:
 seedDB();
@@ -41,8 +44,8 @@ app.use(expressSanitizer());
 app.use("/", indexRoutes);
 app.use("/articulos", articuloRoutes);
 
-app.listen(9000, () => {
-  console.log("El servidor está funcionando.");
-});
+// app.listen(9000, () => {
+//   console.log("El servidor está funcionando.");
+// });
 
 module.exports = app;

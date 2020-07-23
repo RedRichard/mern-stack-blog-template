@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-export default class MenuPrincipal extends Component {
+export default class ArticulosNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      article: { title: "", subtitle: "", text: "", image: "" },
+      title: "",
+      subtitle: "",
+      text: "",
+      image: "",
       createdNew: false,
     };
 
@@ -20,7 +23,7 @@ export default class MenuPrincipal extends Component {
   onChangeArticleTitle(event) {
     this.setState(
       {
-        article: { title: event.target.value },
+        title: event.target.value,
       },
       () => {
         // console.log(this.state.article.title);
@@ -30,19 +33,19 @@ export default class MenuPrincipal extends Component {
 
   onChangeArticleSubtitle(event) {
     this.setState({
-      article: { subtitle: event.target.value },
+      subtitle: event.target.value,
     });
   }
 
   onChangeArticleImage(event) {
     this.setState({
-      article: { image: event.target.value },
+      image: event.target.value,
     });
   }
 
   onChangeArticleText(event) {
     this.setState({
-      article: { text: event.target.value },
+      text: event.target.value,
     });
   }
 
@@ -55,10 +58,10 @@ export default class MenuPrincipal extends Component {
     // console.log("New article text: " + this.state.article.text);
 
     let newArticle = {
-      title: this.state.article.title,
-      subtitle: this.state.article.subtitle,
-      text: this.state.article.text,
-      image: this.state.article.image,
+      title: this.state.title,
+      subtitle: this.state.subtitle,
+      text: this.state.text,
+      image: this.state.image,
     };
 
     // console.log("Objeto: " + newArticle);
@@ -99,7 +102,6 @@ export default class MenuPrincipal extends Component {
                 type="text"
                 className="form-control"
                 placeholder="Subtítulo"
-                value={this.state.subtitle}
                 onChange={this.onChangeArticleSubtitle}
               />
               <label>Link a la imagen del artículo</label>
@@ -107,7 +109,6 @@ export default class MenuPrincipal extends Component {
                 type="text"
                 className="form-control"
                 placeholder="Link"
-                value={this.state.image}
                 onChange={this.onChangeArticleImage}
               />
               <label>Contenido del artículo</label>
@@ -115,7 +116,6 @@ export default class MenuPrincipal extends Component {
                 className="form-control"
                 id="articleBody"
                 rows="5"
-                value={this.state.text}
                 onChange={this.onChangeArticleText}
               ></textarea>
             </div>

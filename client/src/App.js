@@ -1,40 +1,24 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import Header from "./components/Header";
 import MenuPrincipal from "./components/MenuPrincipalIndex";
-import ArticulosIndex from "./components/ArticulosIndex";
-import ArticulosNew from "./components/ArticulosNew";
+import ArticulosIndex from "./components/articulos/ArticulosIndex";
+import ArticulosNew from "./components/articulos/ArticulosNew";
+import ArticulosId from "./components/articulos/ArticulosId";
+import ArticulosEdit from "./components/articulos/ArticulosEdit";
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <div className="container">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link to="/" className="navbar-brand">
-              Letras Transformadoras
-            </Link>
-            <div className="collpase navbar-collapse">
-              <ul className="navbar-nav mr-auto">
-                <li className="navbar-item">
-                  <Link to="/articulos" className="nav-link">
-                    Artículos
-                  </Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/articulos" className="nav-link">
-                    Usuarios
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <br />
-        </div>
+        <Header></Header>
         <Route path="/" exact component={MenuPrincipal} />
         <Route path="/articulos" exact component={ArticulosIndex} />
         <Route path="/articulos/new" exact component={ArticulosNew} />
+        <Route path="/articulos/:id" exact component={ArticulosId} />
+        <Route path="/articulos/:id/edit" exact component={ArticulosEdit} />
       </Router>
     );
   }

@@ -18,22 +18,72 @@ router.get("/", (req, res) => {
     });
 });
 
+// POST - Nuevo artículo:
+router.post("/", (req, res) => {
+  Articulo.create(req.body, (err, newArticulo) => {
+    if (err) {
+      console.log(err);
+      res.status(400).send("Error");
+    } else {
+      res.status(200).send("Persona creada exitosamente");
+    }
+  });
+});
+
+// SHOW - Muestra información detallada del persona con el ID indicado.
+router.get("/:id", (req, res) => {
+  // console.log(req.params.id);
+  Articulo.findById(req.params.id, (err, articulo) => {
+    if (err) {
+      console.log(err);
+    } else {
+      // console.log(persona);
+      res.json(articulo);
+    }
+  });
+});
+
 // NEW - Forma para crear nuevo artículo:
 router.get("/new", (req, res) => {
   res.send("Forma de nuevos artículos");
 });
 
-// POST - Nuevo artículo:
-router.post("/", (req, res) => {
-  let articulo = new Articulo(req.body);
-  articulo
-    .save()
-    .then((articulo) => {
-      res.status(200).json({ articulo: "articulo guardado exitosamente" });
-    })
-    .catch((err) => {
-      res.status(400).send("Article save failed.");
-    });
+// UPDATE - Actualiza la información del persona con el ID indicado.
+router.put("/:id", (req, res) => {
+  // res.send(
+  //   "Update action: Actualizar la información del persona con el ID indicado."
+  // );
+  let id = req.params.id;
+  Articulo.findOneAndUpdate(
+    { _id: id },
+    { $set: req.body },
+    (err, articulo) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send("Error");
+      } else {
+        res.status(200).send("Articulo actualizado exitosamente");
+      }
+    }
+  );
+});
+
+// DELETE - Borra el persona con el ID indicado.
+router.delete("/:id/", (req, res) => {
+  // res.send("Delete action: Borra el persona con el ID indicado.");
+  let id = req.params.id;
+  Articulo.findOneAndDelete(
+    { _id: id },
+    { $set: req.body },
+    (err, articulo) => {
+      if (err) {
+        console.log(err);
+        res.status(400).send("Error");
+      } else {
+        res.status(200).send("Articulo borrado exitosamente");
+      }
+    }
+  );
 });
 
 module.exports = router;
