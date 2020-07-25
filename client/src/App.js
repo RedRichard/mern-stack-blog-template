@@ -8,6 +8,7 @@ import ArticulosIndex from "./components/articulos/ArticulosIndex";
 import ArticulosNew from "./components/articulos/ArticulosNew";
 import ArticulosId from "./components/articulos/ArticulosId";
 import ArticulosEdit from "./components/articulos/ArticulosEdit";
+import UsuarioRegisterForm from "./components/usuarios/UsuarioRegisterForm";
 
 class App extends Component {
   render() {
@@ -19,6 +20,8 @@ class App extends Component {
         <Route path="/articulos/new" exact component={ArticulosNew} />
         <Route path="/articulos/:id" exact component={ArticulosId} />
         <Route path="/articulos/:id/edit" exact component={ArticulosEdit} />
+
+        <Route path="/register" exact component={UsuarioRegisterForm} />
       </Router>
     );
   }
