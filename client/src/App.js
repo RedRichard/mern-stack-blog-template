@@ -8,7 +8,8 @@ import ArticulosIndex from "./components/articulos/ArticulosIndex";
 import ArticulosNew from "./components/articulos/ArticulosNew";
 import ArticulosId from "./components/articulos/ArticulosId";
 import ArticulosEdit from "./components/articulos/ArticulosEdit";
-import UsuarioRegisterForm from "./components/usuarios/UsuarioRegisterForm";
+import UsuarioSignUpForm from "./components/usuarios/UsuarioSignUpForm";
+import UsuarioLogInForm from "./components/usuarios/UsuarioLogInForm";
 
 class App extends Component {
   render() {
@@ -22,7 +23,8 @@ class App extends Component {
           <Route path="/articulos/:id" exact component={ArticulosId} />
           <Route path="/articulos/:id/edit" exact component={ArticulosEdit} />
 
-          <Route path="/login" exact component={UsuarioRegisterForm} />
+          <Route path="/signup" exact component={UsuarioSignUpForm} />
+          <Route path="/login" exact component={UsuarioLogInForm} />
         </Switch>
       </Router>
     );

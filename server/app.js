@@ -56,6 +56,13 @@ passport.use(new LocalStrategy(Usuario.authenticate()));
 passport.serializeUser(Usuario.serializeUser());
 passport.deserializeUser(Usuario.deserializeUser());
 
+// Sending our user data to all webpages
+app.use((req, res, next) => {
+  // Anything in locals is available in our template
+  res.locals.currentUser = req.user;
+  next();
+});
+
 // Route variables:
 const indexRoutes = require("./routes/index"),
   articuloRoutes = require("./routes/articulos");

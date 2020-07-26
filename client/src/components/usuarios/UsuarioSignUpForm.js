@@ -48,7 +48,7 @@ export default class UsuarioRegisterForm extends Component {
 
     // console.log("Objeto: " + newUsuario.password);
 
-    axios.post("http://localhost:9000/", newUsuario).then(
+    axios.post("http://localhost:9000/signup", newUsuario).then(
       (res) => {
         console.log(res.data);
         if (res.status === 200) {
@@ -89,7 +89,7 @@ export default class UsuarioRegisterForm extends Component {
             </div>
             <div>
               <button type="submit" className="btn btn-primary mb-2">
-                Crear
+                Sign Up!
               </button>
             </div>
           </form>

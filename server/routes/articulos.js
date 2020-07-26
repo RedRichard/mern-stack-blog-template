@@ -86,4 +86,12 @@ router.delete("/:id/", (req, res) => {
   );
 });
 
+// login middleware
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).send("No has iniciado sesión");
+}
+
 module.exports = router;

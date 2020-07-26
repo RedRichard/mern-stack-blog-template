@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import LogOutButton from "./header/LogOutButton";
+
 export default class Header extends Component {
   render() {
     return (
@@ -17,8 +19,18 @@ export default class Header extends Component {
                 </Link>
               </li>
               <li className="navbar-item">
-                <Link to="/articulos" className="nav-link">
-                  Usuarios
+                <Link to="/signup" className="nav-link">
+                  Sign Up
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link to="/login" className="nav-link">
+                  Log In
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link to="/logout" className="nav-link">
+                  <LogOutButton></LogOutButton>
                 </Link>
               </li>
             </ul>
