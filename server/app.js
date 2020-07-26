@@ -1,15 +1,16 @@
 // Import libraries:
 const express = require("express"),
-  expressSanitizer = require("express-sanitizer"),
   mongoose = require("mongoose"),
   path = require("path"),
   bodyParser = require("body-parser"),
   cors = require("cors"),
+  passport = require("passport"),
+  LocalStrategy = require("passport-local"),
   seedDB = require("./seeds");
 
 // Import models:
 const Articulo = require("./models/articulo"),
-  Autor = require("./models/usuario");
+  Usuario = require("./models/usuario");
 
 // Important variables:
 const app = express();
@@ -30,17 +31,35 @@ mongoose.set("useFindAndModify", false);
 // Seed database:
 seedDB();
 
-// Route variables:
-const indexRoutes = require("./routes/index"),
-  articuloRoutes = require("./routes/articulos");
-
 // Express config:
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(expressSanitizer());
+
+// Authentication config: Express session:
+// The secret is used to code and decode all session data
+app.use(
+  require("express-session")({
+    secret: "Oyuki is the best doggo ever~",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Authentication config: Passport config
+app.use(passport.initialize());
+app.use(passport.session());
+// Enconde and decode config for Usuario:
+passport.use(new LocalStrategy(Usuario.authenticate()));
+passport.serializeUser(Usuario.serializeUser());
+passport.deserializeUser(Usuario.deserializeUser());
+
+// Route variables:
+const indexRoutes = require("./routes/index"),
+  articuloRoutes = require("./routes/articulos");
+
 app.use("/", indexRoutes);
 app.use("/articulos", articuloRoutes);
 
