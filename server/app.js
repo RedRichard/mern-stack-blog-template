@@ -4,9 +4,9 @@ const express = require("express"),
   path = require("path"),
   bodyParser = require("body-parser"),
   cors = require("cors"),
-  passport = require("passport"),
-  LocalStrategy = require("passport-local"),
   seedDB = require("./seeds");
+
+require("dotenv").config();
 
 // Import models:
 const Articulo = require("./models/articulo"),
@@ -40,28 +40,28 @@ app.use(express.json());
 
 // Authentication config: Express session:
 // The secret is used to code and decode all session data
-app.use(
-  require("express-session")({
-    secret: "Oyuki is the best doggo ever~",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// app.use(
+//   require("express-session")({
+//     secret: "Oyuki is the best doggo ever~",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 
 // Authentication config: Passport config
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 // Enconde and decode config for Usuario:
-passport.use(new LocalStrategy(Usuario.authenticate()));
-passport.serializeUser(Usuario.serializeUser());
-passport.deserializeUser(Usuario.deserializeUser());
+// passport.use(new LocalStrategy(Usuario.authenticate()));
+// passport.serializeUser(Usuario.serializeUser());
+// passport.deserializeUser(Usuario.deserializeUser());
 
 // Sending our user data to all webpages
-app.use((req, res, next) => {
-  // Anything in locals is available in our template
-  res.locals.currentUser = req.user;
-  next();
-});
+// app.use((req, res, next) => {
+//   // Anything in locals is available in our template
+//   res.locals.currentUser = req.user;
+//   next();
+// });
 
 // Route variables:
 const indexRoutes = require("./routes/index"),

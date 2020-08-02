@@ -1,6 +1,7 @@
 const express = require("express"),
   router = express.Router(),
-  passport = require("passport");
+  bcrypt = require("bcryptjs"),
+  jwt = require("jsonwebtoken");
 
 // Article MODEL
 const Usuario = require("../models/usuario");
@@ -9,39 +10,103 @@ const Usuario = require("../models/usuario");
 router.get("/", (req, res) => {});
 
 // POST - REGISTRO Nuevo usuario:
-router.post("/signup", (req, res) => {
-  // data = req.body;
-  // console.log("req: " + data.password);
-  const newUser = new Usuario({ username: req.body.username });
-  Usuario.register(newUser, req.body.password, (err, user) => {
-    if (err) {
-      console.log(err);
-      res.status(400).send("Error");
-    } else {
-      passport.authenticate("local")(req, res, () => {
-        res.status(200).send("Registro exitoso");
-      });
+router.post("/signup", async (req, res) => {
+  try {
+    let { username, password, passwordCheck, email } = req.body;
+
+    if (!username || !password || !passwordCheck || !email) {
+      return res.status(400).json({ msg: "Todos los campos son requeridos" });
     }
-  });
+    if (password.length < 5) {
+      return res
+        .status(400)
+        .json({ msg: "La contraseña necesita al menos 5 caracteres" });
+    }
+    if (password != passwordCheck) {
+      return res.status(400).json({ msg: "Las contraseñas no coinciden" });
+    }
+
+    let existingUser = await Usuario.findOne({ username: username });
+    if (existingUser) {
+      return res.status(400).json({ msg: "Este usuario ya existe" });
+    }
+
+    let existingEmail = await Usuario.findOne({ email: email });
+    if (existingEmail) {
+      return res.status(400).json({ msg: "Este correo ya esta registrado" });
+    }
+
+    let salt = await bcrypt.genSalt();
+
+    let passwordHash = await bcrypt.hash(password, salt);
+
+    let newUser = new Usuario({
+      username,
+      password: passwordHash,
+      email,
+    });
+
+    let savedUser = await newUser.save();
+    res.json(savedUser);
+  } catch {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // POST - LOGIN Usuario:
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  res.status(200).send("Login exitoso");
+router.post("/login", async (req, res) => {
+  try {
+    let { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ msg: "Todos los campos son requeridos" });
+    }
+
+    let user = await Usuario.findOne({ username: username });
+    if (!user) {
+      return res.status(400).json({ msg: "Usuario no registrado" });
+    }
+
+    let isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ msg: "Contraseña incorrecta" });
+
+    let token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+    });
+  } catch {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // GET - LOGOUT Usuario:
 router.get("/logout", (req, res) => {
-  req.logout();
   res.status(200).send("Logout exitoso");
 });
 
-// login middleware
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
+router.post("/tokenIsValid", async (req, res) => {
+  // console.log(req.user);
+  try {
+    let token = req.header("x-auth-token");
+    if (!token) return res.status(401).json(false);
+
+    let verified = jwt.verify(token, process.env.JWT_SECRET);
+    if (!verified) if (!token) return res.status(401).json(false);
+
+    // console.log(verified);
+    let user = await User.findById(verified.id);
+    if (!user) return res.json(false);
+
+    res.json(true);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-  res.status(401).send("No has iniciado sesión");
-}
+});
 
 module.exports = router;
