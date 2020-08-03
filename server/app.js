@@ -65,10 +65,12 @@ app.use(express.json());
 
 // Route variables:
 const indexRoutes = require("./routes/index"),
-  articuloRoutes = require("./routes/articulos");
+  articuloRoutes = require("./routes/articulos"),
+  usuariosRoutes = require("./routes/usuarios");
 
 app.use("/", indexRoutes);
 app.use("/articulos", articuloRoutes);
+app.use("/usuarios", usuariosRoutes);
 
 // app.listen(9000, () => {
 //   console.log("El servidor está funcionando.");

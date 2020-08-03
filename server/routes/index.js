@@ -90,23 +90,4 @@ router.get("/logout", (req, res) => {
   res.status(200).send("Logout exitoso");
 });
 
-router.post("/tokenIsValid", async (req, res) => {
-  // console.log(req.user);
-  try {
-    let token = req.header("x-auth-token");
-    if (!token) return res.status(401).json(false);
-
-    let verified = jwt.verify(token, process.env.JWT_SECRET);
-    if (!verified) if (!token) return res.status(401).json(false);
-
-    // console.log(verified);
-    let user = await User.findById(verified.id);
-    if (!user) return res.json(false);
-
-    res.json(true);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 module.exports = router;

@@ -1,33 +1,22 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import axios from "axios";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
-export default class LogOut extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedOut: false,
-    };
-    this.onClick = this.onClick.bind(this);
-  }
+import UserContext from "../context/UserContext";
 
-  onClick(event) {
-    axios
-      .get("http://localhost:9000/logout/")
-      .then((res) => {
-        console.log(res.data);
-        this.setState({ loggedOut: true });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+export default function LogOutButton() {
+  let { setUserData } = useContext(UserContext);
 
-  render() {
-    if (this.state.loggedOut) {
-      return <Redirect to={{ pathname: "/" }} />;
-    } else {
-      return <div onClick={this.onClick}>Log Out</div>;
-    }
-  }
+  let logout = () => {
+    setUserData({
+      token: undefined,
+      user: undefined,
+    });
+    localStorage.setItem("auth-token", "");
+  };
+
+  return (
+    <Link onClick={logout} to="/" className="nav-link">
+      Log Out
+    </Link>
+  );
 }
