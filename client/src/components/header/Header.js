@@ -1,30 +1,29 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import ArticulosButton from "./ArticulosButton";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+
 import AuthButtons from "./AuthButtons";
 
 export default class Header extends Component {
   render() {
     return (
-      <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to="/" className="navbar-brand">
+      <>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand as={Link} to="/">
             Letras Transformadoras
-          </Link>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav mr-auto">
-              <li className="navbar-item">
-                <ArticulosButton />
-              </li>
-            </ul>
-            <ul className="navbar-nav ml-auto">
-              <AuthButtons />
-            </ul>
-          </div>
-        </nav>
-        <br />
-      </div>
+          </Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link as={Link} to="/articulos">
+              Articulos
+            </Nav.Link>
+          </Nav>
+          <Nav className="ml-auto">
+            <AuthButtons />
+          </Nav>
+        </Navbar>
+      </>
     );
   }
 }

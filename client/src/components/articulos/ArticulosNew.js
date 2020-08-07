@@ -1,132 +1,113 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-export default class ArticulosNew extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: "",
-      subtitle: "",
-      text: "",
-      image: "",
-      createdNew: false,
-    };
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-    this.onChangeArticleTitle = this.onChangeArticleTitle.bind(this);
-    this.onChangeArticleSubtitle = this.onChangeArticleSubtitle.bind(this);
-    this.onChangeArticleText = this.onChangeArticleText.bind(this);
-    this.onChangeArticleImage = this.onChangeArticleImage.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+import ErrorMessage from "../misc/ErrorMessage";
 
-  onChangeArticleTitle(event) {
-    this.setState(
-      {
-        title: event.target.value,
-      },
-      () => {
-        // console.log(this.state.article.title);
-      }
-    );
-  }
+export default function ArticulosNew() {
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState();
+  const [text, setText] = useState();
+  const [image, setImage] = useState();
+  const [titleId, setTitleId] = useState();
+  const [createdNew, setCreatedNew] = useState(false);
+  const [error, setError] = useState();
 
-  onChangeArticleSubtitle(event) {
-    this.setState({
-      subtitle: event.target.value,
-    });
-  }
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  onChangeArticleImage(event) {
-    this.setState({
-      image: event.target.value,
-    });
-  }
+    try {
+      let newArticle = {
+        title,
+        subtitle,
+        text,
+        image,
+        titleId,
+      };
 
-  onChangeArticleText(event) {
-    this.setState({
-      text: event.target.value,
-    });
-  }
+      // console.log("Objeto: " + newArticle);
 
-  onSubmit(event) {
-    event.preventDefault();
-    // console.log("Form sent");
-    // console.log("New article title: " + this.state.article.title);
-    // console.log("New article sub: " + this.state.article.subtitle);
-    // console.log("New article img: " + this.state.article.image);
-    // console.log("New article text: " + this.state.article.text);
+      await axios.post("http://localhost:9000/articulos/", newArticle);
 
-    let newArticle = {
-      title: this.state.title,
-      subtitle: this.state.subtitle,
-      text: this.state.text,
-      image: this.state.image,
-    };
-
-    // console.log("Objeto: " + newArticle);
-
-    axios.post("http://localhost:9000/articulos/", newArticle).then(
-      (res) => {
-        console.log(res.data);
-        if (res.status === 200) {
-          this.setState({ createdNew: true });
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
-
-  render() {
-    if (this.state.createdNew) {
-      return <Redirect to={{ pathname: "/articulos" }} />;
-    } else {
-      return (
-        <div className="container">
-          <div>
-            <h2>Nuevo artículo</h2>
-          </div>
-          <form onSubmit={this.onSubmit}>
-            <div className="form-group">
-              <label>Título del artículo</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nuevo artículo"
-                onChange={this.onChangeArticleTitle}
-              />
-              <label>Subtítulo del artículo</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Subtítulo"
-                onChange={this.onChangeArticleSubtitle}
-              />
-              <label>Link a la imagen del artículo</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Link"
-                onChange={this.onChangeArticleImage}
-              />
-              <label>Contenido del artículo</label>
-              <textarea
-                className="form-control"
-                id="articleBody"
-                rows="5"
-                onChange={this.onChangeArticleText}
-              ></textarea>
-            </div>
-            <div>
-              <button type="submit" className="btn btn-primary mb-2">
-                Crear
-              </button>
-            </div>
-          </form>
-        </div>
-      );
+      setCreatedNew(true);
+    } catch (err) {
+      err.response.data.msg && setError(err.response.data.msg);
     }
+  };
+
+  if (createdNew) {
+    return <Redirect to={{ pathname: "/articulos" }} />;
+  } else {
+    return (
+      <Container>
+        <Row className="justify-content-md-center">
+          <h2>Nuevo artículo</h2>
+        </Row>
+        <Row className="justify-content-md-center">
+          {error && (
+            <Row className="justify-content-md-center">
+              <ErrorMessage
+                message={error}
+                clearError={() => setError(undefined)}
+              />
+            </Row>
+          )}
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col lg="8">
+            <Form onSubmit={onSubmit}>
+              <Form.Label>Título del artículo</Form.Label>
+              <Form.Control
+                name="title"
+                type="text"
+                placeholder="Nuevo artículo"
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  setTitleId(
+                    e.target.value
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .replace(/\s+/g, "-")
+                      .toLowerCase()
+                  );
+                }}
+              />
+              <Form.Label>Subtítulo del artículo</Form.Label>
+              <Form.Control
+                name="subtitle"
+                type="text"
+                placeholder="Subtítulo"
+                onChange={(e) => setSubtitle(e.target.value)}
+              />
+              <Form.Label>Link a la imagen del artículo</Form.Label>
+              <Form.Control
+                name="image"
+                type="text"
+                placeholder="Link"
+                onChange={(e) => setImage(e.target.value)}
+              />
+              <Form.Label>Texto del artículo</Form.Label>
+              <Form.Control
+                name="text"
+                as="textarea"
+                rows="5"
+                onChange={(e) => setText(e.target.value)}
+              />
+              <Row>
+                <Button variant="primary" type="submit">
+                  Crear
+                </Button>
+              </Row>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    );
   }
 }

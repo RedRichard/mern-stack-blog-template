@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+
 import ArticuloCard from "./ArticuloCard";
 
 export default class ArticulosIndex extends Component {
@@ -30,15 +34,15 @@ export default class ArticulosIndex extends Component {
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <p>Este es el Index de Artículos. Bienvenido.</p>
-        <Link to="/articulos/new" className="navbar-brand">
-          <button type="button" className="btn btn-primary btn-sm">
-            Crear nuevo artículo
-          </button>
-        </Link>
-        <div className="row">{this.articleList()}</div>
-      </div>
+        <Button as={Link} to="/articulos/new">
+          Crear nuevo artículo
+        </Button>
+        <Container>
+          <Row>{this.articleList()}</Row>
+        </Container>
+      </Container>
     );
   }
 }

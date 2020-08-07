@@ -1,24 +1,31 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+
 export default class ArticuloCard extends Component {
   render() {
     return (
-      <div className="card col-md-4 col-sm-6" style={{ width: "18rem" }}>
-        <div className="card-body">
-          <h5 className="card-title">{this.props.articulo.title}</h5>
-          <p className="card-text">{this.props.articulo.subtitle}</p>
-          <p className="card-text">{this.props.articulo.created}</p>
-          <Link
-            to={{
-              pathname: `/articulos/${this.props.articulo._id}`,
-            }}
-            className="navbar-brand"
-          >
-            <button className="btn btn-primary">Ver</button>
-          </Link>
-        </div>
-      </div>
+      <Col md="4" sm="6">
+        <Card>
+          <Card.Body>
+            <Card.Title>{this.props.articulo.title}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">
+              {this.props.articulo.subtitle}
+            </Card.Subtitle>
+            <Card.Text>{this.props.articulo.created}</Card.Text>
+            <Card.Link
+              as={Link}
+              to={{
+                pathname: `/articulos/${this.props.articulo.titleId}`,
+              }}
+            >
+              Ver
+            </Card.Link>
+          </Card.Body>
+        </Card>
+      </Col>
     );
   }
 }

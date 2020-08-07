@@ -1,193 +1,137 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-export default class ArticulosEdit extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      articulo: { title: "", subtitle: "", text: "", image: "" },
-      edited: false,
-      deleted: false,
-    };
-    this.id = "";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-    this.onChangeArticuloTitle = this.onChangeArticuloTitle.bind(this);
-    this.onChangeArticuloSubtitle = this.onChangeArticuloSubtitle.bind(this);
-    this.onChangeArticuloText = this.onChangeArticuloText.bind(this);
-    this.onChangeArticuloImage = this.onChangeArticuloImage.bind(this);
-    this.onClickDelete = this.onClickDelete.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+import ErrorMessage from "../misc/ErrorMessage";
 
-  componentDidMount() {
-    this.id = this.props.match.params.id;
-    // console.log("ID: " + id);
+export default function ArticulosEdit(props) {
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState();
+  const [text, setText] = useState();
+  const [image, setImage] = useState();
+  const [titleId, setTitleId] = useState();
+  const [edited, setEdited] = useState(false);
+  const [error, setError] = useState();
+
+  useEffect(() => {
     axios
-      .get("http://localhost:9000/articulos/" + this.id)
+      .get("http://localhost:9000/articulos/" + props.match.params.id)
       .then((res) => {
-        this.setState({ articulo: res.data });
+        // console.log(res.data);
+        let articulo = res.data;
+        setTitle(articulo.title);
+        setSubtitle(articulo.subtitle);
+        setText(articulo.text);
+        setImage(articulo.image);
+        setTitleId(articulo.titleId);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  }, [props.match.params.id]);
 
-  onChangeArticuloTitle(event) {
-    this.setState({
-      articulo: {
-        title: event.target.value,
-        subtitle: this.state.articulo.subtitle,
-        text: this.state.articulo.text,
-        image: this.state.articulo.image,
-      },
-    });
-  }
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  onChangeArticuloSubtitle(event) {
-    this.setState({
-      articulo: {
-        title: this.state.articulo.title,
-        subtitle: event.target.value,
-        text: this.state.articulo.text,
-        image: this.state.articulo.image,
-      },
-    });
-  }
+    try {
+      let newArticle = {
+        title,
+        subtitle,
+        text,
+        image,
+        titleId,
+      };
 
-  onChangeArticuloText(event) {
-    this.setState({
-      articulo: {
-        title: this.state.articulo.title,
-        subtitle: this.state.articulo.subtitle,
-        text: event.target.value,
-        image: this.state.articulo.image,
-      },
-    });
-  }
+      // console.log("Objeto: " + newArticle);
 
-  onChangeArticuloImage(event) {
-    this.setState({
-      articulo: {
-        title: this.state.articulo.title,
-        subtitle: this.state.articulo.subtitle,
-        text: this.state.articulo.text,
-        image: event.target.value,
-      },
-    });
-  }
-
-  onSubmit(event) {
-    event.preventDefault();
-    // console.log("Form sent");
-
-    // console.log("Nuevo nombre: " + this.state.nombre);
-    // console.log("Nuevo correo: " + this.state.correo);
-    // console.log("Nuevo num: " + this.state.numTelefono);
-
-    let newArticulo = {
-      title: this.state.articulo.title,
-      subtitle: this.state.articulo.subtitle,
-      text: this.state.articulo.text,
-      image: this.state.articulo.image,
-    };
-
-    // console.log("Nombre: " + newArticulo.nombre);
-    // console.log("Correo: " + newArticulo.correo);
-    // console.log("Numero: " + newArticulo.numTelefono);
-
-    axios.put("http://localhost:9000/articulos/" + this.id, newArticulo).then(
-      (res) => {
-        console.log("Status: " + res.data);
-        if (res.status === 200) {
-          this.setState({ edited: true });
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
-
-  onClickDelete(event) {
-    event.preventDefault();
-    // console.log("Click");
-    axios.delete("http://localhost:9000/articulos/" + this.id).then(
-      (res) => {
-        console.log("Status: " + res.data);
-        if (res.status === 200) {
-          this.setState({ deleted: true });
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
-
-  render() {
-    if (this.state.edited) {
-      return <Redirect to={{ pathname: `/articulos/${this.id}/` }} />;
-    } else if (this.state.deleted) {
-      return <Redirect to={{ pathname: `/articulos/` }} />;
-    } else {
-      return (
-        <div className="container">
-          <div>
-            <h2>Nuevo artículo</h2>
-          </div>
-          <form onSubmit={this.onSubmit}>
-            <div className="form-group">
-              <label>Título del artículo</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nuevo artículo"
-                value={this.state.articulo.title}
-                onChange={this.onChangeArticuloTitle}
-              />
-              <label>Subtítulo del artículo</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Subtítulo"
-                value={this.state.articulo.subtitle}
-                onChange={this.onChangeArticuloSubtitle}
-              />
-              <label>Link a la imagen del artículo</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Link"
-                value={this.state.articulo.image}
-                onChange={this.onChangeArticuloImage}
-              />
-              <label>Contenido del artículo</label>
-              <textarea
-                className="form-control"
-                id="articleBody"
-                rows="5"
-                value={this.state.articulo.text}
-                onChange={this.onChangeArticuloText}
-              ></textarea>
-            </div>
-            <div className="row">
-              <button
-                type="submit"
-                className="btn btn-primary mb-2 col-md-2 mr-1"
-              >
-                Guardar
-              </button>
-              <button
-                onClick={this.onClickDelete}
-                className="btn btn-primary mb-2 btn-danger col-md-2"
-              >
-                Borrar
-              </button>
-            </div>
-          </form>
-        </div>
+      await axios.put(
+        "http://localhost:9000/articulos/" + props.match.params.id,
+        newArticle
       );
+
+      setEdited(true);
+    } catch (err) {
+      err.response.data.msg && setError(err.response.data.msg);
     }
+  };
+
+  if (edited) {
+    return <Redirect to={{ pathname: `/articulos/${titleId}/` }} />;
+  } else {
+    return (
+      <Container>
+        <Row className="justify-content-md-center">
+          <h2>Editar artículo</h2>
+        </Row>
+        <Row className="justify-content-md-center">
+          {error && (
+            <Row className="justify-content-md-center">
+              <ErrorMessage
+                message={error}
+                clearError={() => setError(undefined)}
+              />
+            </Row>
+          )}
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col lg="8">
+            <Form onSubmit={onSubmit}>
+              <Form.Label>Título del artículo</Form.Label>
+              <Form.Control
+                name="title"
+                type="text"
+                placeholder="Nuevo artículo"
+                defaultValue={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  setTitleId(
+                    e.target.value
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .replace(/\s+/g, "-")
+                      .toLowerCase()
+                  );
+                }}
+              />
+              <Form.Label>Subtítulo del artículo</Form.Label>
+              <Form.Control
+                name="subtitle"
+                type="text"
+                placeholder="Subtítulo"
+                defaultValue={subtitle}
+                onChange={(e) => setSubtitle(e.target.value)}
+              />
+              <Form.Label>Link a la imagen del artículo</Form.Label>
+              <Form.Control
+                name="image"
+                type="text"
+                placeholder="Link"
+                defaultValue={image}
+                onChange={(e) => setImage(e.target.value)}
+              />
+              <Form.Label>Texto del artículo</Form.Label>
+              <Form.Control
+                name="text"
+                as="textarea"
+                rows="5"
+                defaultValue={text}
+                onChange={(e) => setText(e.target.value)}
+              />
+              <Row>
+                <Button variant="primary" type="submit">
+                  Guardar
+                </Button>
+              </Row>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    );
   }
 }

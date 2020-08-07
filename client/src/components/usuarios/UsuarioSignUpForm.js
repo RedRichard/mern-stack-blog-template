@@ -1,100 +1,116 @@
-import React, { Component } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-export default class UsuarioRegisterForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      password: "",
-      createdNew: false,
-    };
+import UserContext from "../context/UserContext";
+import ErrorMessage from "../misc/ErrorMessage";
 
-    this.onChangeUsuarioUsername = this.onChangeUsuarioUsername.bind(this);
-    this.onChangeUsuarioPassword = this.onChangeUsuarioPassword.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
-  onChangeUsuarioUsername(event) {
-    this.setState(
-      {
-        username: event.target.value,
-      },
-      () => {
-        // console.log(this.state.article.title);
-      }
-    );
-  }
+export default function UsuarioRegisterForm() {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [passwordCheck, setPasswordCheck] = useState();
+  const [email, setEmail] = useState();
+  const [error, setError] = useState();
+  const [createdNew, setCreatedNew] = useState();
 
-  onChangeUsuarioPassword(event) {
-    this.setState({
-      password: event.target.value,
-    });
-  }
+  const { setUserData } = useContext(UserContext);
 
-  onSubmit(event) {
-    event.preventDefault();
-    // console.log("Form sent");
-    // console.log("New article title: " + this.state.article.title);
-    // console.log("New article sub: " + this.state.article.subtitle);
-    // console.log("New article img: " + this.state.article.image);
-    // console.log("New article text: " + this.state.article.text);
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-    let newUsuario = {
-      username: this.state.username,
-      password: this.state.password,
-    };
+    try {
+      let newUser = {
+        username,
+        password,
+        passwordCheck,
+        email,
+      };
 
-    // console.log("Objeto: " + newUsuario.password);
+      await axios.post("http://localhost:9000/signup", newUser);
 
-    axios.post("http://localhost:9000/signup", newUsuario).then(
-      (res) => {
-        console.log(res.data);
-        if (res.status === 200) {
-          this.setState({ createdNew: true });
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
+      const loginRes = await axios.post("http://localhost:9000/login", {
+        username,
+        password,
+      });
 
-  render() {
-    if (this.state.createdNew) {
-      return <Redirect to={{ pathname: "/" }} />;
-    } else {
-      return (
-        <div className="container d-flex justify-content-center">
-          <form onSubmit={this.onSubmit}>
-            <div className="">
+      setUserData({
+        token: loginRes.data.token,
+        user: loginRes.data.user,
+      });
+
+      localStorage.setItem("auth-token", loginRes.data.token);
+      setCreatedNew(true);
+    } catch (err) {
+      err.response.data.msg && setError(err.response.data.msg);
+    }
+  };
+
+  if (createdNew) {
+    return <Redirect to={{ pathname: "/" }} />;
+  } else {
+    return (
+      <Container fluid="sm">
+        <Row className="justify-content-sm-center">
+          <Col lg="4" md="6">
+            <div>
               <h2>Registro</h2>
             </div>
-            <div className="form-group">
-              <label>Nombre de usuario:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nombre de usuario"
-                onChange={this.onChangeUsuarioUsername}
-              />
-              <label>Contraseña</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Subtítulo"
-                onChange={this.onChangeUsuarioPassword}
-              />
-            </div>
-            <div>
-              <button type="submit" className="btn btn-primary mb-2">
-                Sign Up!
-              </button>
-            </div>
-          </form>
-        </div>
-      );
-    }
+            {error && (
+              <ErrorMessage
+                message={error}
+                clearError={() => setError(false)}
+              ></ErrorMessage>
+            )}
+            <Form onSubmit={onSubmit}>
+              <Form.Group>
+                <Form.Label>Nombre del usuario</Form.Label>
+                <Form.Control
+                  name="username"
+                  type="text"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  name="email"
+                  type="text"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label>Contraseña</Form.Label>
+                <Form.Control
+                  name="password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Control
+                  name="passwordCheck"
+                  type="password"
+                  placeholder="Comprobación de contraseña"
+                  onChange={(e) => setPasswordCheck(e.target.value)}
+                />
+              </Form.Group>
+
+              <Button variant="primary" type="submit">
+                Sign me up!
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    );
   }
 }

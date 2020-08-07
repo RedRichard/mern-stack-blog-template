@@ -14,6 +14,7 @@ const articuloSchema = new mongoose.Schema({
     username: String,
   },
   created: { type: Date, default: Date.now },
+  titleId: { type: String, unique: true },
 });
 
 // This creates a new collection: Articulo

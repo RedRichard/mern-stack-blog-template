@@ -19,13 +19,23 @@ router.get("/", (req, res) => {
 });
 
 // POST - Nuevo artículo:
-router.post("/", (req, res) => {
-  Articulo.create(req.body, (err, newArticulo) => {
+router.post("/", async (req, res) => {
+  let { title, subtitle, text, image, titleId } = req.body;
+
+  if (!title || !subtitle || !text || !image || !titleId)
+    return res.status(400).json({ msg: "Todos los campos son necesarios" });
+
+  let existingArticle = await Articulo.findOne({ titleId: titleId });
+
+  if (existingArticle)
+    return res.status(400).json({ msg: "Ya hay un artículo con este título" });
+
+  await Articulo.create(req.body, (err, newArticulo) => {
     if (err) {
       console.log(err);
-      res.status(400).send("Error");
+      res.status(400).json({ msg: "Error" });
     } else {
-      res.status(200).send("Persona creada exitosamente");
+      res.status(200).json({ msg: "Persona creada exitosamente" });
     }
   });
 });
@@ -33,7 +43,8 @@ router.post("/", (req, res) => {
 // SHOW - Muestra información detallada del persona con el ID indicado.
 router.get("/:id", (req, res) => {
   // console.log(req.params.id);
-  Articulo.findById(req.params.id, (err, articulo) => {
+  let titleId = req.params.id;
+  Articulo.findOne({ titleId: titleId }, (err, articulo) => {
     if (err) {
       console.log(err);
     } else {
@@ -49,13 +60,23 @@ router.get("/new", (req, res) => {
 });
 
 // UPDATE - Actualiza la información del persona con el ID indicado.
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
+  let { title, subtitle, text, image, titleId } = req.body;
+
+  if (!title || !subtitle || !text || !image || !titleId)
+    return res.status(400).json({ msg: "Todos los campos son necesarios" });
+
+  let existingArticle = await Articulo.findOne({ titleId: titleId });
+
+  if (existingArticle)
+    return res.status(400).json({ msg: "Ya hay un artículo con este título" });
+
   // res.send(
   //   "Update action: Actualizar la información del persona con el ID indicado."
   // );
-  let id = req.params.id;
+  titleId = req.params.id;
   Articulo.findOneAndUpdate(
-    { _id: id },
+    { titleId: titleId },
     { $set: req.body },
     (err, articulo) => {
       if (err) {
@@ -73,7 +94,7 @@ router.delete("/:id/", (req, res) => {
   // res.send("Delete action: Borra el persona con el ID indicado.");
   let id = req.params.id;
   Articulo.findOneAndDelete(
-    { _id: id },
+    { titleId: id },
     { $set: req.body },
     (err, articulo) => {
       if (err) {
