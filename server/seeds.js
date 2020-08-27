@@ -28,7 +28,7 @@ const autorData = [
 
 const articuloData = [
   {
-    title: "Articulo 1",
+    title: "Article 1",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -38,7 +38,7 @@ const articuloData = [
     created: "2020-05-18T16:00:00Z",
   },
   {
-    title: "Articulo 2",
+    title: "Article 2",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -48,7 +48,7 @@ const articuloData = [
     created: "2020-05-19T16:00:00Z",
   },
   {
-    title: "Articulo 3",
+    title: "Article 3",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -83,7 +83,7 @@ function seedDB() {
                 if (err) {
                   console.log(err);
                 } else {
-                  console.log("Articulo creado");
+                  console.log("Created Article");
                 }
               });
             });

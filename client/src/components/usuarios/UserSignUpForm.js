@@ -11,12 +11,12 @@ export default class UserSignUpForm extends Component {
       createdNew: false,
     };
 
-    this.onChangeUsuarioUsername = this.onChangeUsuarioUsername.bind(this);
-    this.onChangeUsuarioPassword = this.onChangeUsuarioPassword.bind(this);
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeUserPassword = this.onChangeUserPassword.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChangeUsuarioUsername(event) {
+  onChangeUsername(event) {
     this.setState(
       {
         username: event.target.value,
@@ -27,7 +27,7 @@ export default class UserSignUpForm extends Component {
     );
   }
 
-  onChangeUsuarioPassword(event) {
+  onChangeUserPassword(event) {
     this.setState({
       password: event.target.value,
     });
@@ -69,22 +69,22 @@ export default class UserSignUpForm extends Component {
         <div className="container d-flex justify-content-center">
           <form onSubmit={this.onSubmit}>
             <div className="">
-              <h2>Registro</h2>
+              <h2>Sign Up</h2>
             </div>
             <div className="form-group">
-              <label>Nombre de usuario:</label>
+              <label>Username:</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Nombre de usuario"
-                onChange={this.onChangeUsuarioUsername}
+                placeholder="Username"
+                onChange={this.onChangeUsername}
               />
-              <label>Contraseña</label>
+              <label>Password</label>
               <input
                 type="password"
                 className="form-control"
-                placeholder="Subtítulo"
-                onChange={this.onChangeUsuarioPassword}
+                placeholder="Password"
+                onChange={this.onChangeUserPassword}
               />
             </div>
             <div>
