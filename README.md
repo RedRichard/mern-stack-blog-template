@@ -3,10 +3,12 @@
 A basic blog template made with the MERN stack.
 
 **Main Page**
-![Main Page](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/MainPage.png = 600x)
+
+![Main Page](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/MainPage.png | width=600)
 
 **Article Index**
-![Article Index](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/ArticleIndex.png = 600x)
+
+![Article Index](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/ArticleIndex.png | width=600)
 
 ## Backend
 
