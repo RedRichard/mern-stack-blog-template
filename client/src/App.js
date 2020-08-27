@@ -8,13 +8,13 @@ import "./App.css";
 import UserContext from "./components/context/UserContext";
 
 import Header from "./components/header/Header";
-import MenuPrincipal from "./components/pages/MenuPrincipal";
-import ArticulosIndex from "./components/articulos/ArticulosIndex";
-import ArticulosNew from "./components/articulos/ArticulosNew";
-import ArticulosId from "./components/articulos/ArticulosId";
-import ArticulosEdit from "./components/articulos/ArticulosEdit";
-import UsuarioSignUpForm from "./components/usuarios/UsuarioSignUpForm";
-import UsuarioLogInForm from "./components/usuarios/UsuarioLogInForm";
+import MainMenu from "./components/pages/MainMenu";
+import ArticlesIndex from "./components/articles/ArticlesIndex";
+import ArticlesNew from "./components/articles/ArticlesNew";
+import ArticlesId from "./components/articles/ArticlesId";
+import ArticlesEdit from "./components/articles/ArticlesEdit";
+import UserSignUpForm from "./components/usuarios/UserSignUpForm";
+import UserLogInForm from "./components/usuarios/UserLogInForm";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -63,14 +63,14 @@ function App() {
       <UserContext.Provider value={{ userData, setUserData }}>
         <Header />
         <Switch>
-          <Route path="/" exact component={MenuPrincipal} />
-          <Route path="/articulos" exact component={ArticulosIndex} />
-          <Route path="/articulos/new" exact component={ArticulosNew} />
-          <Route path="/articulos/:id" exact component={ArticulosId} />
-          <Route path="/articulos/:id/edit" exact component={ArticulosEdit} />
+          <Route path="/" exact component={MainMenu} />
+          <Route path="/articles" exact component={ArticlesIndex} />
+          <Route path="/articles/new" exact component={ArticlesNew} />
+          <Route path="/articles/:id" exact component={ArticlesId} />
+          <Route path="/articles/:id/edit" exact component={ArticlesEdit} />
 
-          <Route path="/signup" exact component={UsuarioSignUpForm} />
-          <Route path="/login" exact component={UsuarioLogInForm} />
+          <Route path="/signup" exact component={UserSignUpForm} />
+          <Route path="/login" exact component={UserLogInForm} />
         </Switch>
       </UserContext.Provider>
     </BrowserRouter>

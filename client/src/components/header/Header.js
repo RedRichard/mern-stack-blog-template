@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import ArticulosButton from "./ArticulosButton";
+import ArticlesButton from "./ArticlesButton";
 import AuthButtons from "./AuthButtons";
 
 export default class Header extends Component {
@@ -10,12 +10,12 @@ export default class Header extends Component {
       <div className="container">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <Link to="/" className="navbar-brand">
-            Letras Transformadoras
+            Blog Title
           </Link>
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav mr-auto">
               <li className="navbar-item">
-                <ArticulosButton />
+                <ArticlesButton />
               </li>
             </ul>
             <ul className="navbar-nav ml-auto">
