@@ -28,6 +28,10 @@ To run, access the **server** folder and run:
 Develped with React.
 Provides a user interface for the backend.
 
-To run, access the **client** fonder and run:
+To run, access the **client** folder and run:
 
     npm start
+
+Alternatively, you can run the entire project from the **client** folder with the next command:
+
+    npm run app
