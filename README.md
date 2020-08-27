@@ -2,6 +2,12 @@
 
 A basic blog template made with the MERN stack.
 
+**Main Page**
+![Main Page](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/MainPage.png = 600x)
+
+**Article Index**
+![Article Index](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/ArticleIndex.png = 600x)
+
 ## Backend
 
 Developed with Node, Express and MongoDB.
