@@ -4,11 +4,11 @@ A basic blog template made with the MERN stack.
 
 **Main Page**
 
-![Main Page](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/MainPage.png | width=600)
+![Main Page](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/MainPage.png){:width="600px"}
 
 **Article Index**
 
-![Article Index](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/ArticleIndex.png | width=600)
+![Article Index](https://github.com/RedRichard/mern-stack-blog-template/blob/master/images/ArticleIndex.png){:width="600px"}
 
 ## Backend
 
