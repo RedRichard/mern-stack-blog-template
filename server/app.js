@@ -6,10 +6,6 @@ const express = require("express"),
   cors = require("cors"),
   seedDB = require("./seeds");
 
-// Import models:
-const Articulo = require("./models/articulo"),
-  Autor = require("./models/usuario");
-
 // Important variables:
 const app = express();
 
@@ -31,7 +27,6 @@ seedDB();
 
 // Route variables:
 const indexRoutes = require("./routes/index"),
-  articuloRoutes = require("./routes/articulos"),
   textoRoutes = require("./routes/textos");
 
 // Express config:
@@ -42,7 +37,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/", indexRoutes);
-app.use("/articulos", articuloRoutes);
 app.use("/textos", textoRoutes);
 
 // app.listen(9000, () => {
