@@ -3,7 +3,6 @@ const express = require("express"),
   expressSanitizer = require("express-sanitizer"),
   mongoose = require("mongoose"),
   path = require("path"),
-  bodyParser = require("body-parser"),
   cors = require("cors"),
   seedDB = require("./seeds");
 
@@ -32,17 +31,19 @@ seedDB();
 
 // Route variables:
 const indexRoutes = require("./routes/index"),
-  articuloRoutes = require("./routes/articulos");
+  articuloRoutes = require("./routes/articulos"),
+  textoRoutes = require("./routes/textos");
 
 // Express config:
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(expressSanitizer());
+
 app.use("/", indexRoutes);
 app.use("/articulos", articuloRoutes);
+app.use("/textos", textoRoutes);
 
 // app.listen(9000, () => {
 //   console.log("El servidor está funcionando.");

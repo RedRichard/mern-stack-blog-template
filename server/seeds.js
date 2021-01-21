@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Articulo = require("./models/articulo");
 const Autor = require("./models/usuario");
+const Texto = require("./models/texto");
 
 const autorData = [
   {
@@ -59,6 +60,75 @@ const articuloData = [
   },
 ];
 
+const textoData = [
+  {
+    type: "articulos",
+    title: "Texto 1",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at sagittis urna. Etiam id nisl a metus egestas ultricies. Quisque ullamcorper justo nisi, a aliquet mi tincidunt nec. Sed cursus vitae eros non fringilla. Suspendisse et elementum nulla. Suspendisse tortor elit, tincidunt in tortor at, pretium consequat arcu. Fusce cursus, ligula eu porttitor aliquam, enim ex dapibus massa, eget condimentum libero orci quis nulla. Sed mollis magna vitae velit blandit, eu molestie sapien faucibus. Nam in sem nisi. Mauris id dolor dui. In hac habitasse platea dictumst. Nam vehicula dui nec ornare placerat. Nunc volutpat augue ut justo euismod tincidunt. Quisque ut arcu nisl.",
+    image:
+      "https://cdn.pixabay.com/photo/2020/05/01/19/07/tulips-5118757_1280.jpg",
+    created: "2020-05-18T16:00:00Z",
+  },
+  {
+    type: "articulos",
+    title: "Texto 2",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at sagittis urna. Etiam id nisl a metus egestas ultricies. Quisque ullamcorper justo nisi, a aliquet mi tincidunt nec. Sed cursus vitae eros non fringilla. Suspendisse et elementum nulla. Suspendisse tortor elit, tincidunt in tortor at, pretium consequat arcu. Fusce cursus, ligula eu porttitor aliquam, enim ex dapibus massa, eget condimentum libero orci quis nulla. Sed mollis magna vitae velit blandit, eu molestie sapien faucibus. Nam in sem nisi. Mauris id dolor dui. In hac habitasse platea dictumst. Nam vehicula dui nec ornare placerat. Nunc volutpat augue ut justo euismod tincidunt. Quisque ut arcu nisl.",
+    image:
+      "https://cdn.pixabay.com/photo/2012/11/07/02/55/tulips-65036_1280.jpg",
+    created: "2020-05-19T16:00:00Z",
+  },
+  {
+    type: "articulos",
+    title: "Texto 3",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at sagittis urna. Etiam id nisl a metus egestas ultricies. Quisque ullamcorper justo nisi, a aliquet mi tincidunt nec. Sed cursus vitae eros non fringilla. Suspendisse et elementum nulla. Suspendisse tortor elit, tincidunt in tortor at, pretium consequat arcu. Fusce cursus, ligula eu porttitor aliquam, enim ex dapibus massa, eget condimentum libero orci quis nulla. Sed mollis magna vitae velit blandit, eu molestie sapien faucibus. Nam in sem nisi. Mauris id dolor dui. In hac habitasse platea dictumst. Nam vehicula dui nec ornare placerat. Nunc volutpat augue ut justo euismod tincidunt. Quisque ut arcu nisl.",
+    image:
+      "https://cdn.pixabay.com/photo/2015/03/16/10/59/sunset-675847_1280.jpg",
+    created: "2020-05-20T16:00:00Z",
+  },
+  {
+    type: "ensayos",
+    title: "Texto 1",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at sagittis urna. Etiam id nisl a metus egestas ultricies. Quisque ullamcorper justo nisi, a aliquet mi tincidunt nec. Sed cursus vitae eros non fringilla. Suspendisse et elementum nulla. Suspendisse tortor elit, tincidunt in tortor at, pretium consequat arcu. Fusce cursus, ligula eu porttitor aliquam, enim ex dapibus massa, eget condimentum libero orci quis nulla. Sed mollis magna vitae velit blandit, eu molestie sapien faucibus. Nam in sem nisi. Mauris id dolor dui. In hac habitasse platea dictumst. Nam vehicula dui nec ornare placerat. Nunc volutpat augue ut justo euismod tincidunt. Quisque ut arcu nisl.",
+    image:
+      "https://cdn.pixabay.com/photo/2020/05/01/19/07/tulips-5118757_1280.jpg",
+    created: "2020-05-18T16:00:00Z",
+  },
+  {
+    type: "ensayos",
+    title: "Texto 2",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at sagittis urna. Etiam id nisl a metus egestas ultricies. Quisque ullamcorper justo nisi, a aliquet mi tincidunt nec. Sed cursus vitae eros non fringilla. Suspendisse et elementum nulla. Suspendisse tortor elit, tincidunt in tortor at, pretium consequat arcu. Fusce cursus, ligula eu porttitor aliquam, enim ex dapibus massa, eget condimentum libero orci quis nulla. Sed mollis magna vitae velit blandit, eu molestie sapien faucibus. Nam in sem nisi. Mauris id dolor dui. In hac habitasse platea dictumst. Nam vehicula dui nec ornare placerat. Nunc volutpat augue ut justo euismod tincidunt. Quisque ut arcu nisl.",
+    image:
+      "https://cdn.pixabay.com/photo/2012/11/07/02/55/tulips-65036_1280.jpg",
+    created: "2020-05-19T16:00:00Z",
+  },
+  {
+    type: "ensayos",
+    title: "Texto 3",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at sagittis urna. Etiam id nisl a metus egestas ultricies. Quisque ullamcorper justo nisi, a aliquet mi tincidunt nec. Sed cursus vitae eros non fringilla. Suspendisse et elementum nulla. Suspendisse tortor elit, tincidunt in tortor at, pretium consequat arcu. Fusce cursus, ligula eu porttitor aliquam, enim ex dapibus massa, eget condimentum libero orci quis nulla. Sed mollis magna vitae velit blandit, eu molestie sapien faucibus. Nam in sem nisi. Mauris id dolor dui. In hac habitasse platea dictumst. Nam vehicula dui nec ornare placerat. Nunc volutpat augue ut justo euismod tincidunt. Quisque ut arcu nisl.",
+    image:
+      "https://cdn.pixabay.com/photo/2015/03/16/10/59/sunset-675847_1280.jpg",
+    created: "2020-05-20T16:00:00Z",
+  },
+];
+
 function seedDB() {
   Articulo.deleteMany({}, (err) => {
     if (err) {
@@ -94,4 +164,22 @@ function seedDB() {
   });
 }
 
-module.exports = seedDB;
+function seedDBTextos() {
+  Texto.deleteMany({}, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log("Textos borrados");
+    textoData.forEach((seed) => {
+      Texto.create(seed, (err, texto) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Texto creado");
+        }
+      });
+    });
+  });
+}
+
+module.exports = seedDBTextos;
