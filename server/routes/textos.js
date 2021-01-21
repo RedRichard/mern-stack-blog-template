@@ -30,7 +30,6 @@ router.post("/", (req, res) => {
       console.log(err);
       res.status(400).send("Error: " + body);
     } else {
-      console.log(req.body);
       res.status(200).send("Texto creado exitosamente");
     }
   });
