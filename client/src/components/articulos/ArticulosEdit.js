@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
@@ -8,9 +8,13 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import UserContext from "../context/UserContext";
+
 import ErrorMessage from "../misc/ErrorMessage";
 
 export default function ArticulosEdit(props) {
+  let { userData } = useContext(UserContext);
+
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState();
   const [text, setText] = useState();
@@ -39,31 +43,45 @@ export default function ArticulosEdit(props) {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      let newArticle = {
-        title,
-        subtitle,
-        text,
-        image,
-        titleId,
-      };
+    if (userData.user)
+      try {
+        let newArticle = {
+          title,
+          subtitle,
+          text,
+          image,
+          titleId,
+        };
 
-      // console.log("Objeto: " + newArticle);
+        // console.log("Objeto: " + newArticle);
 
-      await axios.put(
-        "http://localhost:9000/articulos/" + props.match.params.id,
-        newArticle
-      );
+        await axios.put(
+          "http://localhost:9000/articulos/" + props.match.params.id,
+          newArticle
+        );
 
-      setEdited(true);
-    } catch (err) {
-      err.response.data.msg && setError(err.response.data.msg);
-    }
+        setEdited(true);
+      } catch (err) {
+        err.response.data.msg && setError(err.response.data.msg);
+      }
+  };
+
+  const onDelete = async (e) => {
+    e.preventDefault();
+
+    if (userData.user)
+      try {
+        await axios.delete(
+          "http://localhost:9000/articulos/" + props.match.params.id
+        );
+      } catch (err) {
+        err.response.data.msg && setError(err.response.data.msg);
+      }
   };
 
   if (edited) {
     return <Redirect to={{ pathname: `/articulos/${titleId}/` }} />;
-  } else {
+  } else if (userData.user) {
     return (
       <Container>
         <Row className="justify-content-md-center">
@@ -127,11 +145,16 @@ export default function ArticulosEdit(props) {
                 <Button variant="primary" type="submit">
                   Guardar
                 </Button>
+                <Button variant="danger" onClick={onDelete}>
+                  Borrar
+                </Button>
               </Row>
             </Form>
           </Col>
         </Row>
       </Container>
     );
+  } else {
+    return <Redirect to={{ pathname: `/articulos/` }} />;
   }
 }

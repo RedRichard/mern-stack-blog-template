@@ -29,7 +29,7 @@ mongoose.connect("mongodb://localhost/letras_transformadoras", {
 mongoose.set("useFindAndModify", false);
 
 // Seed database:
-seedDB();
+// seedDB();
 
 // Express config:
 app.set("views", path.join(__dirname, "views"));

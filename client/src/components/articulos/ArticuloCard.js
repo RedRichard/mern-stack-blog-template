@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -14,7 +15,9 @@ export default class ArticuloCard extends Component {
             <Card.Subtitle className="mb-2 text-muted">
               {this.props.articulo.subtitle}
             </Card.Subtitle>
-            <Card.Text>{this.props.articulo.created}</Card.Text>
+            <Card.Text>
+              {moment(this.props.articulo.created).format("DD-MM-YYYY")}
+            </Card.Text>
             <Card.Link
               as={Link}
               to={{

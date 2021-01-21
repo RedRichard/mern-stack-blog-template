@@ -99,9 +99,9 @@ router.delete("/:id/", (req, res) => {
     (err, articulo) => {
       if (err) {
         console.log(err);
-        res.status(400).send("Error");
+        res.status(400).json({ msg: "Error" });
       } else {
-        res.status(200).send("Articulo borrado exitosamente");
+        res.status(200).json({ msg: "Articulo borrado exitosamente" });
       }
     }
   );

@@ -6,9 +6,13 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 
+import UserContext from "../context/UserContext";
+
 import ArticuloCard from "./ArticuloCard";
 
-export default class ArticulosIndex extends Component {
+class ArticulosIndex extends Component {
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
     this.state = { articulos: [] };
@@ -33,12 +37,16 @@ export default class ArticulosIndex extends Component {
   }
 
   render() {
+    let context = this.context;
+
     return (
       <Container>
         <p>Este es el Index de Artículos. Bienvenido.</p>
-        <Button as={Link} to="/articulos/new">
-          Crear nuevo artículo
-        </Button>
+        {context.userData.token && context.userData.user && (
+          <Button as={Link} to="/articulos/new">
+            Crear nuevo artículo
+          </Button>
+        )}
         <Container>
           <Row>{this.articleList()}</Row>
         </Container>
@@ -46,3 +54,5 @@ export default class ArticulosIndex extends Component {
     );
   }
 }
+
+export default ArticulosIndex;
