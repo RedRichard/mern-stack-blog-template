@@ -1,31 +1,43 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { LinkContainer } from "react-router-bootstrap";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
-export default class Header extends Component {
-  render() {
-    return (
-      <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to="/" className="navbar-brand">
-            TSIC2
-          </Link>
-          <div className="collpase navbar-collapse">
-            <ul className="navbar-nav mr-auto">
-              <li className="navbar-item">
-                <Link to="/articulos" className="nav-link">
-                  Artículos
-                </Link>
-              </li>
-              <li className="navbar-item">
-                <Link to="/articulos" className="nav-link">
-                  Usuarios
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        <br />
-      </div>
-    );
-  }
+export default function Header() {
+  const [tipos, setTipos] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:9000/textos/type/all")
+      .then((res) => {
+        setTipos(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const tipoList = () => {
+    // console.log("Tipos: " + tipos);
+    return tipos.map((currentTipo, i) => {
+      return (
+        <LinkContainer to={`/${currentTipo}`} key={i}>
+          <Nav.Link>{currentTipo.toUpperCase()}</Nav.Link>
+        </LinkContainer>
+      );
+    });
+  };
+
+  return (
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <LinkContainer to="/">
+        <Navbar.Brand href="#home">TSIC2</Navbar.Brand>
+      </LinkContainer>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">{tipoList()}</Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  );
 }

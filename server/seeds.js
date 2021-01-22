@@ -29,7 +29,7 @@ const autorData = [
 const textoData = [
   {
     type: "articulos",
-    title: "Texto 1",
+    title: "Articulo 1",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -40,7 +40,7 @@ const textoData = [
   },
   {
     type: "articulos",
-    title: "Texto 2",
+    title: "Articulo 2",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -51,7 +51,7 @@ const textoData = [
   },
   {
     type: "articulos",
-    title: "Texto 3",
+    title: "Articulo 3",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -62,7 +62,7 @@ const textoData = [
   },
   {
     type: "ensayos",
-    title: "Texto 1",
+    title: "Ensayo 1",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -73,7 +73,7 @@ const textoData = [
   },
   {
     type: "ensayos",
-    title: "Texto 2",
+    title: "Ensayo 2",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:
@@ -84,7 +84,7 @@ const textoData = [
   },
   {
     type: "ensayos",
-    title: "Texto 3",
+    title: "Ensayo 3",
     subtitle:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi faucibus.",
     text:

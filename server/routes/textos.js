@@ -47,6 +47,21 @@ router.get("/:type/", (req, res) => {
   });
 });
 
+// SHOW - Obten todos tipos de texto existentes
+router.get("/type/all", (req, res) => {
+  // console.log(req.params.id);
+  // console.log("entra");
+  Texto.find({}, { type: 1, _id: 0 })
+    .distinct("type")
+    .exec({}, (err, texto) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(texto);
+      }
+    });
+});
+
 // SHOW - Muestra información detallada del texto con el ID indicado.
 router.get("/:type/:id", (req, res) => {
   // console.log(req.params.id);
