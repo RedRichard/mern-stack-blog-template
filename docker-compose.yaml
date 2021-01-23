@@ -4,6 +4,8 @@ services:
     image: mongo
     ports:
       - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -38,3 +40,7 @@ services:
       - "nodejs-backend"
     environment:
       REACT_APP_BACKEND_URL: http://localhost:9000
+
+volumes:
+  mongodb-data:
+    driver: local
