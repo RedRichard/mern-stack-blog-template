@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nodejs-backend
+  name: nodejs-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nodejs-backend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nodejs-backend
+    spec:
+      containers:
+        - env:
+            - name: NODEJS_MONGODB_PASSWORD
+              value: password
+            - name: NODEJS_MONGODB_SCHEME
+              value: mongodb
+            - name: NODEJS_MONGODB_SERVICE_PORT
+              value: mongodb:27017
+            - name: NODEJS_MONGODB_USERNAME
+              value: admin
+          image: tsic2-backend:0.1
+          name: nodejs-backend
+          ports:
+            - containerPort: 9000
+          resources: {}
+      restartPolicy: Always
+status: {}

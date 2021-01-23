@@ -11,7 +11,9 @@ export default function TipoIndex(props) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:9000/textos/" + props.match.params.type)
+      .get(
+        process.env.REACT_APP_BACKEND_URL + "/textos/" + props.match.params.type
+      )
       .then((res) => {
         setTextos(res.data);
       })

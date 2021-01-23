@@ -14,7 +14,7 @@ export default function TextoId(props) {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:9000/textos/${props.match.params.type}/${props.match.params.id}`
+        `${process.env.REACT_APP_BACKEND_URL}/textos/${props.match.params.type}/${props.match.params.id}`
       )
       .then((res) => {
         setTexto(res.data);

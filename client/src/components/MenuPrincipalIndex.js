@@ -13,7 +13,7 @@ export default function MenuPrincipalIndex() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:9000/textos/")
+      .get(process.env.REACT_APP_BACKEND_URL + "/textos/")
       .then((res) => {
         setTextos(res.data);
       })

@@ -9,7 +9,7 @@ export default function Header() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:9000/textos/type/all")
+      .get(process.env.REACT_APP_BACKEND_URL + "/textos/type/all")
       .then((res) => {
         setTipos(res.data);
       })

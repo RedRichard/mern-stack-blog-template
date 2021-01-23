@@ -23,7 +23,7 @@ export default function TextoEdit(props) {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:9000/textos/${props.match.params.type}/${props.match.params.id}`
+        `${process.env.REACT_APP_BACKEND_URL}/textos/${props.match.params.type}/${props.match.params.id}`
       )
       .then((res) => {
         setTexto(res.data);
@@ -37,7 +37,7 @@ export default function TextoEdit(props) {
     e.preventDefault();
     await axios
       .put(
-        `http://localhost:9000/textos/${props.match.params.type}/${props.match.params.id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/textos/${props.match.params.type}/${props.match.params.id}`,
         texto
       )
       .catch((err) => {
@@ -50,7 +50,7 @@ export default function TextoEdit(props) {
     e.preventDefault();
     await axios
       .delete(
-        `http://localhost:9000/textos/${props.match.params.type}/${props.match.params.id}`
+        `${process.env.REACT_APP_BACKEND_URL}/textos/${props.match.params.type}/${props.match.params.id}`
       )
       .catch((err) => {
         console.log(err);

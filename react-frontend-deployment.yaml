@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: react-frontend
+  name: react-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: react-frontend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: react-frontend
+    spec:
+      containers:
+        - env:
+            - name: REACT_APP_BACKEND_URL
+              value: http://localhost:9000
+          image: tsic2-frontend:0.1
+          name: react-frontend
+          ports:
+            - containerPort: 3000
+          resources: {}
+          tty: true
+      restartPolicy: Always
+status: {}
