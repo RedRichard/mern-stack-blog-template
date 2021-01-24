@@ -8,6 +8,7 @@ metadata:
   labels:
     io.kompose.service: mongodb
   name: mongodb
+  namespace: tsic2-ns
 spec:
   replicas: 1
   selector:
@@ -43,4 +44,41 @@ spec:
         - name: mongodb-data
           persistentVolumeClaim:
             claimName: mongodb-data
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongodb
+  name: mongodb
+  namespace: tsic2-ns
+spec:
+  ports:
+    - name: "27017"
+      port: 27017
+      targetPort: 27017
+  selector:
+    io.kompose.service: mongodb
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongodb-data
+  name: mongodb-data
+  namespace: tsic2-ns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
 status: {}

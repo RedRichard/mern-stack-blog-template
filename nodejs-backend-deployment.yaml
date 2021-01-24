@@ -8,6 +8,7 @@ metadata:
   labels:
     io.kompose.service: nodejs-backend
   name: nodejs-backend
+  namespace: tsic2-ns
 spec:
   replicas: 1
   selector:
@@ -33,10 +34,31 @@ spec:
               value: mongodb:27017
             - name: NODEJS_MONGODB_USERNAME
               value: admin
-          image: tsic2-backend:0.1
+          image: redrichard/nodejs-express:1.0
           name: nodejs-backend
           ports:
             - containerPort: 9000
           resources: {}
       restartPolicy: Always
 status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nodejs-backend
+  name: nodejs-backend
+  namespace: tsic2-ns
+spec:
+  ports:
+    - name: "9000"
+      port: 9000
+      targetPort: 9000
+  selector:
+    io.kompose.service: nodejs-backend
+status:
+  loadBalancer: {}

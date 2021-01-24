@@ -10,4 +10,4 @@ COPY . /app
 
 RUN yarn install
 
-CMD ["./wait-for-it.sh", "mongodb:27017", "--", "npm", "run", "server"]
+CMD ["./wait-for-it.sh", "mongodb:27017", "--", "npm", "start"]

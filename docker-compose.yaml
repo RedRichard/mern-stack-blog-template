@@ -20,7 +20,7 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongodb
 
   nodejs-backend:
-    image: tsic2-backend:0.1
+    image: redrichard/nodejs-express:1.0
     ports:
       - 9000:9000
     depends_on:
@@ -32,7 +32,7 @@ services:
       NODEJS_MONGODB_SERVICE_PORT: mongodb:27017
 
   react-frontend:
-    image: tsic2-frontend:0.1
+    image: redrichard/reactjs-mern-stack:1.0
     tty: true
     ports:
       - 3000:3000
